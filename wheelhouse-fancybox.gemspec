@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = "wheelhouse-fancybox"
   s.platform    = Gem::Platform::RUBY
-  s.version     = "1.0"
+  s.version     = "1.3.4"
 
   s.required_ruby_version     = ">= 1.8.7"
   s.required_rubygems_version = ">= 1.3.6"
