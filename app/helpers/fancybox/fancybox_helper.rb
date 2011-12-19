@@ -1,6 +1,9 @@
 module Fancybox::FancyboxHelper
   def fancybox(selector, options={})
-    concat fancybox_assets unless @_fancybox_assets_included
+    unless @_fancybox_assets_included
+      concat fancybox_assets
+      @_fancybox_assets_included = true
+    end
     
     javascript_tag <<-EOJS
       $(function() {
@@ -10,14 +13,15 @@ module Fancybox::FancyboxHelper
   end
   
   def fancybox_assets(options={})
-    @_fancybox_assets_included = true
-    
     plugin_assets {
-      concat stylesheet("fancybox/jquery.fancybox.css")
-      concat javascript("fancybox/jquery.fancybox.js")
-      concat javascript("fancybox/jquery.mousewheel.js") if options[:mousewheel]
-      concat javascript("fancybox/jquery.easing.js") if options[:easing]
-      nil
+      result = []
+      
+      result << stylesheet("fancybox/jquery.fancybox.css")
+      result << javascript("fancybox/jquery.fancybox.js")
+      result << javascript("fancybox/jquery.mousewheel.js") if options[:mousewheel]
+      result << javascript("fancybox/jquery.easing.js") if options[:easing]
+      
+      safe_join(result, "\n")
     }
   end
 end
