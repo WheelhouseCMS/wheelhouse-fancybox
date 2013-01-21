@@ -1,15 +1,17 @@
 module Fancybox::FancyboxHelper
   def fancybox(selector, options={})
-    unless @_fancybox_assets_included
-      concat fancybox_assets
-      @_fancybox_assets_included = true
-    end
+    with_output_buffer do
+      unless @_fancybox_assets_included
+        concat fancybox_assets
+        @_fancybox_assets_included = true
+      end
     
-    javascript_tag <<-EOJS
-      $(function() {
-        $('#{selector}').fancybox(#{options.to_json});
-      });
-    EOJS
+      concat javascript_tag <<-EOJS
+        $(function() {
+          $('#{selector}').fancybox(#{options.to_json});
+        });
+      EOJS
+    end
   end
   
   def fancybox_assets(options={})
